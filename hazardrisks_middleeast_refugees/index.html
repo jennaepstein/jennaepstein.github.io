@@ -1,0 +1,152 @@
+<html>
+<head>
+<meta charset='utf-8' />
+<title>Visualizing Risk Landslide and Flood Risks for Syrian Refugees in the Middle East</title>
+<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.1.1/mapbox-gl.js'></script>
+<link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.1.1/mapbox-gl.css' rel='stylesheet' />
+
+</head>
+<body>
+<style>
+
+body { margin:0; padding:0; }
+
+#map { position:absolute; top:0; bottom:0; width:100%; }
+
+.mapboxgl-popup {
+  max-width: 400px;
+  font: 12px/16px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+}
+
+.map-overlay {
+    font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+    color: #FFFFFF;
+    position: absolute;
+    width: 15%;
+    left: 1%;
+	  bottom : 5%;
+	  background-color: #FFFFFF;
+}
+
+.map-overlay .map-overlay-inner {
+    background-color: #34335;
+    box-shadow:0 1px 2px rgba(0, 0, 0, 0.20);
+    border-radius: 3px;
+    padding: 10px;
+	color: #000000;
+}
+
+.map-overlay .legend .bar {
+    height: 12px;
+    width: 100%;
+    background: linear-gradient(to right, #93d982, #f9e867, #f9ae3e, #f88562);
+
+}
+.map-overlay .legend2 .bar2 {
+    height: 12px;
+    width: 100%;
+    background: linear-gradient(to right, #adcbdb, #085178); }
+
+</style>
+
+
+<style type="text/css">
+    #info {
+        display: block;
+        font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+        position: relative;
+        margin: 0px auto;
+        padding: 10px;
+        border: none;
+        border-radius: 3px;
+        font-size: 12px;
+        text-align: center;
+        color: #222;
+        background: #fff;
+    }
+
+</style>
+
+<div id='map'></div>
+<pre id="info"><h1>Visualizing Landslide and Flood Risks for Syrian Refugees and Internally-Displaced Persons</h1><p><em>Click on a tent icon for the name of the camp</em><p></pre>
+
+<div class='map-overlay top'>
+    <div class='map-overlay-inner'>
+
+        <div id='legend' class='legend'>
+            <div class='bar'></div>
+            <div><strong>Landslide Hazard</strong><br><em>Low to High</em><br></div><br>
+        </div>
+
+
+    <div id="legend2" class="legend2">
+            <div class='bar2'></div>
+            <div><strong>Flood Hazard</strong><br><em>Low to High</em></div></div>
+            <div><br><hr><small><strong>Sources:</strong> Humanitarian Data Exchange; Global Facility for Disaster Reduction and Recovery - <em>ThinkHazard!</em></small></div>
+          </div></div>
+
+<script>
+
+mapboxgl.accessToken = 'pk.eyJ1IjoiamVubmFlcHN0ZWluIiwiYSI6ImNqM2VzejYwNzAweTEzM25iZWRvM3c4YjkifQ.9KSRzRe9dv0k2mcJn3ns4g';
+
+var map = new mapboxgl.Map({
+container: 'map', // container id
+style: 'mapbox://styles/jennaepstein/ck3i28m4g0k8y1cqpeyx3y200', // stylesheet location
+center: [39.1788728, 37.1641193], // starting position [lng, lat]
+zoom: 6.25, // starting zoom
+maxBounds:[[25.259768,18.079026], [69.292971,47.350735]],
+});
+
+
+// adding popups
+map.on('click', function(e) {
+var features = map.queryRenderedFeatures(e.point, {
+layers: ['syria-refugeesites-2016', 'syria-idpsites-2016'] // replace this with the name of the layer
+});
+
+if (!features.length) {
+return;
+}
+
+//var stateLegendEl = document.getElementById('state-legend');
+
+var feature = features[0];
+
+var popup1 = new mapboxgl.Popup({ offset: [0, -15] })
+.setLngLat(feature.geometry.coordinates)
+.setHTML('<h3>' + feature.properties.Name)
+.addTo(map);
+});
+
+// Change the cursor to a pointer when the mouse is over the places layer.
+map.on('mouseenter', 'syria-refugeesites-2016', function () {
+map.getCanvas().style.cursor = 'pointer';
+});
+
+// Change it back to a pointer when it leaves.
+map.on('mouseleave', 'syria-refugeesites-2016', function () {
+map.getCanvas().style.cursor = '';
+
+
+//
+var popup2 = new mapboxgl.Popup({ offset: [0, -15] })
+.setLngLat(feature.geometry.coordinates)
+.setHTML(feature.properties.Name)
+.addTo(map);
+});
+
+// Change the cursor to a pointer when the mouse is over the places layer.
+map.on('mouseenter', 'syria-idpsites-2016', function () {
+map.getCanvas().style.cursor = 'pointer';
+});
+
+// Change it back to a pointer when it leaves.
+map.on('mouseleave', 'syria-idpsites-2016', function () {
+map.getCanvas().style.cursor = '';
+
+});
+</script>
+
+</body>
+</html>
