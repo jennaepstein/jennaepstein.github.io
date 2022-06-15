@@ -25,7 +25,7 @@ body {
 .btn-primary {
   background-color: #343a40;
   border-color: #343a40;
-  color: ##17a2b8
+  color: #17a2b8
 }
 
 
@@ -35,7 +35,7 @@ body {
     border-color: #17a2b8; /*set the color you want here*/ }
 
 .bg-dark {
-  background-color: #000000!important
+  background-color: #585858!important
 }
 
 .navbar-dark .navbar-nav .nav-link {
