@@ -1,0 +1,93 @@
+<html>
+<head>
+<meta charset='utf-8' />
+<title>Thesis Map of Paris</title>
+<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.1.1/mapbox-gl.js'></script>
+<link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.1.1/mapbox-gl.css' rel='stylesheet' />
+
+</head>
+<body>
+<style>
+
+body { margin:0; padding:0; }
+
+#map { position:absolute; top:0; bottom:0; width:100%; }
+
+.mapboxgl-popup {
+  max-width: 400px;
+  font: 12px/16px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+}
+
+.map-overlay {
+    font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+    color: #FFFFFF;
+    position: absolute;
+    width: 15%;
+    left: 1%;
+	  bottom : 5%;
+	  background-color: #FFFFFF;
+}
+
+.map-overlay .map-overlay-inner {
+    background-color: #34335;
+    box-shadow:0 1px 2px rgba(0, 0, 0, 0.20);
+    border-radius: 3px;
+    padding: 10px;
+	color: #000000;
+}
+
+.map-overlay .legend .bar {
+    height: 16px;
+    width: 100%;
+    background: linear-gradient(to right, #eff3ff, #bdd7e7, #6baed6, #3182bd, #08519c);
+}
+
+</style>
+
+<div id='map'></div>
+<pre id="info"><h1>text</h1><p><em>subtext</em><p></pre>
+
+<div class='map-overlay top'>
+    <div class='map-overlay-inner'>
+
+        <div id='legend' class='legend'>
+            <div class='bar'></div>
+            <div><strong>Percent of Vote for Marine Le Pen in 2011</strong><br><em>Lower to Higher Percentages</em><br><hr><p style=color:#760404>Ethnic Enclaves Outlined in Dark Red</p></div>
+        </div></div></div>
+
+<script>
+
+mapboxgl.accessToken = 'pk.eyJ1IjoiamVubmFlcHN0ZWluIiwiYSI6ImNqM2VzejYwNzAweTEzM25iZWRvM3c4YjkifQ.9KSRzRe9dv0k2mcJn3ns4g';
+
+var map = new mapboxgl.Map({
+container: 'map', // container id
+style: 'mapbox://styles/jennaepstein/cjzo95qqp2gej1es02q5hi30s', // stylesheet location
+center: [2.34700, 48.85883], // starting position [lng, lat]
+zoom: 11.9, // starting zoom
+//maxBounds:[[25.259768,18.079026], [69.292971,47.350735]],
+});
+
+
+// adding popups
+map.on('click', 'paris-lepen-votes-by-voting-bureau', function(e) {
+  new mapboxgl.Popup()
+  .setLngLat(e.lngLat)
+  .setHTML('<h3>Bureau ' + e.features[0].properties.Name + '<br>' + '<h4>Percent of Vote: ' + e.features[0].properties.Votes_LePen_Number)
+  .addTo(map);
+  });
+
+// Change the cursor to a pointer when the mouse is over the places layer.
+map.on('mouseenter', 'paris-lepen-votes-by-voting-bureau', function () {
+map.getCanvas().style.cursor = 'pointer';
+});
+
+// Change it back to a pointer when it leaves.
+map.on('mouseleave', 'paris-lepen-votes-by-voting-bureau', function () {
+map.getCanvas().style.cursor = '';
+
+});
+</script>
+
+</body>
+</html>
